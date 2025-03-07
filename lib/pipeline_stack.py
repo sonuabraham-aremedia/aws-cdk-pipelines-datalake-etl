@@ -148,7 +148,7 @@ class PipelineStack(cdk.Stack):
 
         # Optionally, you can link your custom build project to your pipeline
         pipeline.add_stage(
-            name="Build",
+            stage_name="Build",
             actions=[
                 codepipeline_actions.CodeBuildAction(
                     action_name="CodeBuild",
