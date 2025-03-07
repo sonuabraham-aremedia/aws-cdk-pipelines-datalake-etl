@@ -122,22 +122,41 @@ class PipelineStack(cdk.Stack):
                     ),
                 ],
                 synth_command=f'export ENV={target_environment} && cdk synth --verbose',
-                build_environment=codebuild.BuildEnvironment(
-                         build_image=codebuild.LinuxBuildImage.STANDARD_5_0,  # Supports Node.js 18
-                        compute_type=codebuild.ComputeType.SMALL
-                ),
-                build_spec=codebuild.BuildSpec.from_object({
-                    "version": "0.2",
-                    "phases": {
-                        "install": {
-                            "runtime-versions": {
-                                "nodejs": "18"  # Explicitly set Node.js version
-                            }
-                        }
-                    }
-                }),
             ),
             cross_account_keys=True,
+        )
+
+        # Custom build environment if needed (create a project separately)
+        build_project = codebuild.Project(
+            self,
+            "CustomBuildProject",
+            environment=codebuild.BuildEnvironment(
+                build_image=codebuild.LinuxBuildImage.STANDARD_5_0,  # Example: STANDARD_5_0 for Node.js 18
+                compute_type=codebuild.ComputeType.SMALL,
+            ),
+            build_spec=codebuild.BuildSpec.from_object({
+                "version": "0.2",
+                "phases": {
+                    "install": {
+                        "runtime-versions": {
+                            "nodejs": "18"  # Explicitly set Node.js version
+                        }
+                    }
+                }
+            })
+        )
+
+        # Optionally, you can link your custom build project to your pipeline
+        pipeline.add_stage(
+            name="Build",
+            actions=[
+                codepipeline_actions.CodeBuildAction(
+                    action_name="CodeBuild",
+                    project=build_project,
+                    input=source_artifact,
+                    outputs=[cloud_assembly_artifact],
+                )
+            ]
         )
 
         deploy_stage = PipelineDeployStage(
