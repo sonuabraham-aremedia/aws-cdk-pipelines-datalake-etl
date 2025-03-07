@@ -123,7 +123,7 @@ class PipelineStack(cdk.Stack):
                 ],
                 synth_command=f'export ENV={target_environment} && cdk synth --verbose',
                 build_environment=codebuild.BuildEnvironment(
-                         build_image=codebuild.LinuxBuildImage.STANDARD_6_0,  # Supports Node.js 18
+                         build_image=codebuild.LinuxBuildImage.STANDARD_5_0,  # Supports Node.js 18
                         compute_type=codebuild.ComputeType.SMALL
                 ),
                 build_spec=codebuild.BuildSpec.from_object({
