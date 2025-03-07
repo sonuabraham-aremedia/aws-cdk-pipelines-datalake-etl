@@ -22,7 +22,7 @@ RESOURCE_NAME_PREFIX = 'resource_name_prefix'
 VPC_CIDR = 'vpc_cidr'
 
 # Secrets Manager Inputs
-GITHUB_TOKEN = 'github_token'
+GITHUB_TOKEN = 'github-personal-access-token'
 
 # Used in Automated Outputs
 VPC_ID = 'vpc_id'
@@ -141,7 +141,7 @@ def get_all_configurations() -> dict:
     return {
         DEPLOYMENT: {
             ENVIRONMENT: DEPLOYMENT,
-            GITHUB_TOKEN: '/DataLake/GitHubToken',
+            GITHUB_TOKEN: 'github-personal-access-token',
             **get_local_configuration(DEPLOYMENT),
         },
         DEV: get_environment_configuration(DEV),
