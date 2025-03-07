@@ -13,16 +13,16 @@ PROD = 'Prod'
 ENVIRONMENT = 'environment'
 
 # Manual Inputs
-GITHUB_REPOSITORY_OWNER_NAME = 'github_repository_owner_name'
-GITHUB_REPOSITORY_NAME = 'github_repository_name'
-ACCOUNT_ID = 'account_id'
-REGION = 'region'
-LOGICAL_ID_PREFIX = 'logical_id_prefix'
-RESOURCE_NAME_PREFIX = 'resource_name_prefix'
-VPC_CIDR = 'vpc_cidr'
+GITHUB_REPOSITORY_OWNER_NAME = 'sonuabraham-aremedia'
+GITHUB_REPOSITORY_NAME = 'aws-cdk-pipelines-datalake-etl'
+ACCOUNT_ID = '391970746680'
+REGION = 'ap-southeast-2'
+LOGICAL_ID_PREFIX = 'logical_id'
+RESOURCE_NAME_PREFIX = 'datalake'
+VPC_CIDR = '10.0.0.0/16'
 
 # Secrets Manager Inputs
-GITHUB_TOKEN = 'github_token'
+GITHUB_TOKEN = 'github-personal-access-token'
 
 # Used in Automated Outputs
 VPC_ID = 'vpc_id'
@@ -57,33 +57,33 @@ def get_local_configuration(environment: str) -> dict:
     """
     local_mapping = {
         DEPLOYMENT: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            GITHUB_REPOSITORY_OWNER_NAME: '',
-            GITHUB_REPOSITORY_NAME: '',
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            GITHUB_REPOSITORY_OWNER_NAME: 'sonuabraham-aremedia',
+            GITHUB_REPOSITORY_NAME: 'aws-cdk-pipelines-datalake-etl',
             # This is used in the Logical Id of CloudFormation resources.
             # We recommend Capital case for consistency.
             # Example: DataLakeCdkBlog
-            LOGICAL_ID_PREFIX: '',
+            LOGICAL_ID_PREFIX: 'data',
             # Important: This is used in resources that must be **globally** unique!
             # Resource names may only contain Alphanumeric and hyphens and cannot contain trailing hyphens.
             # Example: unique-identifier-data-lake
-            RESOURCE_NAME_PREFIX: '',
+            RESOURCE_NAME_PREFIX: 'el',
         },
-        DEV: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.20.0.0/24'
+       DEV: {
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         },
         TEST: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.10.0.0/24'
+            ACCOUNT_ID: '021007710463',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         },
         PROD: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.0.0.0/24'
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         }
     }
 
@@ -140,7 +140,7 @@ def get_all_configurations() -> dict:
     return {
         DEPLOYMENT: {
             ENVIRONMENT: DEPLOYMENT,
-            GITHUB_TOKEN: '/DataLake/GitHubToken',
+            GITHUB_TOKEN: 'github-personal-access-token',
             **get_local_configuration(DEPLOYMENT),
         },
         DEV: get_environment_configuration(DEV),
