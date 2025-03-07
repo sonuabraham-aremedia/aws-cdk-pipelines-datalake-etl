@@ -6,6 +6,7 @@ import aws_cdk.pipelines as pipelines
 import aws_cdk.aws_codepipeline as codepipeline
 import aws_cdk.aws_codepipeline_actions as codepipeline_actions
 import aws_cdk.aws_iam as iam
+import aws_cdk.aws_codebuild as codebuild
 
 from .configuration import (
     DEPLOYMENT, GITHUB_REPOSITORY_NAME, GITHUB_REPOSITORY_OWNER_NAME, GITHUB_TOKEN,
@@ -121,6 +122,20 @@ class PipelineStack(cdk.Stack):
                     ),
                 ],
                 synth_command=f'export ENV={target_environment} && cdk synth --verbose',
+                build_environment=codebuild.BuildEnvironment(
+                         build_image=codebuild.LinuxBuildImage.STANDARD_7_0,  # Supports Node.js 18
+                        compute_type=codebuild.ComputeType.SMALL
+                ),
+                build_spec=codebuild.BuildSpec.from_object({
+                    "version": "0.2",
+                    "phases": {
+                        "install": {
+                            "runtime-versions": {
+                                "nodejs": "18"  # Explicitly set Node.js version
+                            }
+                        }
+                    }
+                }),
             ),
             cross_account_keys=True,
         )
