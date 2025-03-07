@@ -267,8 +267,8 @@ class GlueStack(cdk.Stack):
             f'{target_environment}{logical_id_prefix}RawGlueRole',
             role_name=f'{target_environment.lower()}-{resource_name_prefix}-raw-glue-role',
             assumed_by=iam.ServicePrincipal('glue.amazonaws.com'),
-            inline_policies=[
-                iam.PolicyDocument(statements=[
+            inline_policies={
+                "S3BucketAccess": iam.PolicyDocument(statements=[
                     iam.PolicyStatement(
                         effect=iam.Effect.ALLOW,
                         actions=[
@@ -277,12 +277,10 @@ class GlueStack(cdk.Stack):
                             's3:GetBucketNotification',
                             's3:GetBucketLocation',
                         ],
-                        resources=[
-                            'arn:aws:s3:::*'
-                        ]
+                        resources=['arn:aws:s3:::*']
                     )
                 ]),
-                iam.PolicyDocument(statements=[
+                "S3ObjectAccess": iam.PolicyDocument(statements=[
                     iam.PolicyStatement(
                         effect=iam.Effect.ALLOW,
                         actions=[
@@ -291,35 +289,24 @@ class GlueStack(cdk.Stack):
                             's3:GetObject',
                             's3:DeleteObject',
                         ],
-                        resources=[
-                            'arn:aws:s3:::*/*'
-                        ]
+                        resources=['arn:aws:s3:::*/*']
                     )
                 ]),
-                iam.PolicyDocument(statements=[
+                "S3ListBuckets": iam.PolicyDocument(statements=[
                     iam.PolicyStatement(
                         effect=iam.Effect.ALLOW,
-                        actions=[
-                            's3:ListAllMyBuckets',
-                        ],
-                        resources=[
-                            '*'
-                        ]
+                        actions=['s3:ListAllMyBuckets'],
+                        resources=['*']
                     )
                 ]),
-                # NOTE: This is required due to bucket level encryption on S3 Buckets
-                iam.PolicyDocument(statements=[
+                "KMSAccess": iam.PolicyDocument(statements=[
                     iam.PolicyStatement(
                         effect=iam.Effect.ALLOW,
-                        actions=[
-                            'kms:*',
-                        ],
-                        resources=[
-                            s3_kms_key.key_arn,
-                        ]
+                        actions=['kms:*'],
+                        resources=[s3_kms_key.key_arn]
                     )
                 ]),
-            ],
+            },
             managed_policies=[
                 iam.ManagedPolicy.from_aws_managed_policy_name('service-role/AWSGlueServiceRole'),
             ]

@@ -57,33 +57,34 @@ def get_local_configuration(environment: str) -> dict:
     """
     local_mapping = {
         DEPLOYMENT: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            GITHUB_REPOSITORY_OWNER_NAME: '',
-            GITHUB_REPOSITORY_NAME: '',
-            # This is used in the Logical Id of CloudFormation resources.
-            # We recommend Capital case for consistency.
-            # Example: DataLakeCdkBlog
-            LOGICAL_ID_PREFIX: '',
-            # Important: This is used in resources that must be **globally** unique!
-            # Resource names may only contain Alphanumeric and hyphens and cannot contain trailing hyphens.
-            # Example: unique-identifier-data-lake
-            RESOURCE_NAME_PREFIX: '',
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            GITHUB_REPOSITORY_OWNER_NAME: 'sonuabraham-aremedia',
+            # If you use GitHub / GitHub Enterprise, this will be the organization name
+            GITHUB_REPOSITORY_NAME: 'aws-cdk-pipelines-datalake-infrastructure',
+            # Use your forked repo here!
+            # This is used in the Logical Id of CloudFormation resources
+            # We recommend capital case for consistency. e.g. DataLakeCdkBlog
+            LOGICAL_ID_PREFIX: 'DataLakeCdkBlog',
+            # This is used in resources that must be globally unique!
+            # It may only contain alphanumeric characters, hyphens, and cannot contain trailing hyphens
+            # E.g. unique-identifier-data-lake
+            RESOURCE_NAME_PREFIX: 'dl',
         },
         DEV: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.20.0.0/24'
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         },
         TEST: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.10.0.0/24'
+            ACCOUNT_ID: '021007710463',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         },
         PROD: {
-            ACCOUNT_ID: '',
-            REGION: 'us-east-2',
-            VPC_CIDR: '10.0.0.0/24'
+            ACCOUNT_ID: '391970746680',
+            REGION: 'ap-southeast-2',
+            VPC_CIDR: '10.0.0.0/16'
         }
     }
 
